@@ -132,9 +132,6 @@ flutter:
     - assets/images/merchant_logo.png
     - assets/images/cash_logo.png
     - assets/images/zemen_gebeya.png
-    - assets/pdf/sample.pdf
-    - assets/pdf/sample_two.pdf
-    - assets/pdf/sample_three.pdf
     - assets/images/get.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
