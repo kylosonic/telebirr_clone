@@ -2,9 +2,6 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:telebirr/models/transaction.dart';
-import 'package:telebirr/screens/pdf_utils.dart';
-import 'package:telebirr/services/db_helper.dart';
 
 class MerchantConfirmationScreen extends StatefulWidget {
   const MerchantConfirmationScreen({Key? key}) : super(key: key);
@@ -146,23 +143,11 @@ class MerchantConfirmationScreenState
     final String merchantId = args['merchantId'] ?? '';
     final double amount =
         double.tryParse(args['amount']?.toString() ?? '0') ?? 0.0;
+    // ignore: unused_local_variable
     final String operatorId = args['operatorId'] ?? '';
 
     final formattedTime = formatDateTime(_transactionTime);
     final formattedAmount = formatAmount(amount);
-
-    // Build transactionData map for PDF & DB
-    final transactionData = {
-      'merchantId': merchantId,
-      'operatorId': operatorId,
-      'amount': amount.toStringAsFixed(2),
-      'serviceFee': '0.00',
-      'vatAmount': '0.00',
-      'discountAmount': '0.00',
-      'receiptNumber': _transactionNumber,
-      'transactionTime': formattedTime,
-      'transactionNumber': _transactionNumber,
-    };
 
     return Scaffold(
       appBar: AppBar(
@@ -178,24 +163,8 @@ class MerchantConfirmationScreenState
                 'Download',
                 style: TextStyle(color: lightGreen),
               ),
-              onPressed: () async {
-                final pdfPath = await editAndSaveMerchantConfirmationPdf(
-                  transactionData,
-                  context,
-                );
-                if (pdfPath.isNotEmpty) {
-                  final record = TransactionRecord(
-                    type: 'Buy Goods',
-                    amount: amount,
-                    currency: '(ETB)',
-                    counterparty: merchantId,
-                    timestamp: formattedTime,
-                    pdfPath: pdfPath,
-                    transactionNo: _transactionNumber,
-                    fee: 0.0, // Assuming no fee for this transaction
-                  );
-                  await DBHelper().insertTxn(record);
-                }
+              onPressed: () {
+                // TODO: implement download functionality
               },
             ),
             TextButton.icon(

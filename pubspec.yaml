@@ -42,7 +42,6 @@ dependencies:
   number_to_words_english: ^2.1.1
   syncfusion_flutter_pdf: ^29.1.37
   marquee: ^2.2.0
-  device_info_plus: ^10.1.2
 
 
 

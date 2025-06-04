@@ -1,7 +1,7 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
-import 'package:telebirr/screens/transaction_history.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/send_money_screen.dart';
@@ -11,7 +11,6 @@ import 'screens/loading_screen.dart';
 import 'screens/confirmation_screen.dart';
 import 'screens/bank_transfer_confirmation_screen.dart';
 import 'screens/merchant_confirmation_screen.dart';
-import 'database_helper.dart';
 
 // Define a class to hold the device check result
 class DeviceCheckResult {
@@ -21,42 +20,7 @@ class DeviceCheckResult {
   DeviceCheckResult(this.isAllowed, this.deviceId);
 }
 
-// Replace this with the actual device ID of the phone you want to allow
-const String allowedDeviceId = 'UP1A.231005.007';
-
-// Function to check if the current device is allowed
-Future<DeviceCheckResult> checkDeviceAllowed() async {
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
-  if (Platform.isAndroid) {
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    String deviceId = androidInfo.id; // Using 'id' as a simple identifier
-    // print('Android Device ID: $deviceId');
-    return DeviceCheckResult(deviceId == allowedDeviceId, deviceId);
-  } else if (Platform.isIOS) {
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    String deviceId = iosInfo.identifierForVendor ?? 'unknown';
-    return DeviceCheckResult(deviceId == allowedDeviceId, deviceId);
-  } else {
-    // Fallback for unsupported platforms (e.g., web, desktop)
-    return DeviceCheckResult(false, 'unknown');
-  }
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseHelper.instance.database; // Initialize database
-
-  // Perform the device check
-  DeviceCheckResult result = await checkDeviceAllowed();
-
-  // Decide which app to run based on the device check
-  if (result.isAllowed) {
-    runApp(const MyApp());
-  } else {
-    runApp(ErrorApp(deviceId: result.deviceId));
-  }
-}
+// Replace this with the actual device ID of the phone you want to al
 
 // Main application widget (unchanged)
 class MyApp extends StatelessWidget {
@@ -96,7 +60,6 @@ class MyApp extends StatelessWidget {
             (context) => const BankTransferConfirmationScreen(),
         '/pay_merchant_confirmation':
             (context) => const MerchantConfirmationScreen(),
-        '/history': (_) => TransactionHistoryScreen(),
       },
     );
   }

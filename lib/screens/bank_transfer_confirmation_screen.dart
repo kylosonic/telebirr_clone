@@ -1,6 +1,6 @@
 // lib/screens/bank_transfer_confirmation_screen.dart
 
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, unused_local_variable
 
 import 'dart:async';
 import 'dart:math';
@@ -9,9 +9,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:telebirr/models/transaction.dart';
-import 'package:telebirr/screens/pdf_utils.dart';
-import 'package:telebirr/services/db_helper.dart';
 
 class BankTransferConfirmationScreen extends StatefulWidget {
   const BankTransferConfirmationScreen({super.key});
@@ -202,18 +199,6 @@ class BankTransferConfirmationScreenState
     }
 
     // Build map for PDF and DB
-    final transactionData = {
-      'transactionNumber': txnNum,
-      'receiptNumber': txnNum,
-      'transactionTime': fmtTime,
-      'amount': fmtBaseAmt,
-      'accountNumber': account,
-      'name': toName,
-      'bankName': bank,
-      'discountAmount': '0.00',
-      'serviceFee': fmtService,
-      'vatAmount': fmtVat,
-    };
 
     return Scaffold(
       appBar: AppBar(
@@ -230,24 +215,8 @@ class BankTransferConfirmationScreenState
                 'Download',
                 style: TextStyle(color: lightGreen),
               ),
-              onPressed: () async {
-                final pdfPath = await editAndSaveBankTransferPdf(
-                  transactionData,
-                  context,
-                );
-                if (pdfPath.isNotEmpty) {
-                  final record = TransactionRecord(
-                    type: 'Transfer Money',
-                    amount: double.parse(fmtBaseAmt),
-                    currency: '(ETB)',
-                    counterparty: toName,
-                    timestamp: fmtTime,
-                    pdfPath: pdfPath,
-                    transactionNo: txnNum,
-                    fee: fee,
-                  );
-                  await DBHelper().insertTxn(record);
-                }
+              onPressed: () {
+                // TODO: implement download functionality
               },
             ),
 

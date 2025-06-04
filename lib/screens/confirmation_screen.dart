@@ -1,12 +1,11 @@
 // lib/screens/confirmation_screen.dart
 
+// ignore_for_file: unused_local_variable
+
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:telebirr/models/transaction.dart';
-import 'package:telebirr/screens/pdf_utils.dart';
-import 'package:telebirr/services/db_helper.dart';
 
 class ConfirmationScreen extends StatefulWidget {
   const ConfirmationScreen({super.key});
@@ -173,17 +172,6 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
     final double totalAmount = amount + serviceFee + vatAmount;
 
     // Prepare data for PDF and DB
-    final transactionData = {
-      'transactionNumber': transactionNumber,
-      'receiptNumber': transactionNumber,
-      'transactionTime': formattedTime,
-      'amount': formatAmount(amount),
-      'accountNumber': phone,
-      'name': recipientName,
-      'discountAmount': '0.00',
-      'serviceFee': formatAmount(serviceFee),
-      'vatAmount': formatAmount(vatAmount),
-    };
 
     return Scaffold(
       appBar: AppBar(
@@ -199,25 +187,7 @@ class ConfirmationScreenState extends State<ConfirmationScreen> {
                 'Download',
                 style: TextStyle(color: lightGreen),
               ),
-              onPressed: () async {
-                final pdfPath = await editAndSaveConfirmationPdf(
-                  transactionData,
-                  context,
-                );
-                if (pdfPath.isNotEmpty) {
-                  final record = TransactionRecord(
-                    type: 'Transfer Money',
-                    amount: amount,
-                    currency: '(ETB)',
-                    counterparty: recipientName,
-                    timestamp: formattedTime,
-                    pdfPath: pdfPath,
-                    transactionNo: transactionNumber,
-                    fee: serviceFee + vatAmount,
-                  );
-                  await DBHelper().insertTxn(record);
-                }
-              },
+              onPressed: () {},
             ),
             TextButton.icon(
               icon: const Icon(Icons.share_outlined, color: lightGreen),
